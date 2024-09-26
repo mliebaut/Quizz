@@ -13,6 +13,6 @@ quizzRouter.post('/createOrUpdate', UserController.create);
 quizzRouter.post('/:id/update', UserController.update);
 quizzRouter.post('/:id/delete', UserController.delete);
 
-router.use(userRouter.routes(), userRouter.allowedMethods());
+router.use(quizzRouter.routes(), quizzRouter.allowedMethods());
 
 export default router;

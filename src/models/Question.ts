@@ -1,12 +1,11 @@
 import mongoose, {Model, Schema, Types} from "mongoose";
-import {User} from "./User";
 
 export type Question = {
     _id: Types.ObjectId;
     question: string;
     answer: string;
     formatted(): QuestionFormatted
-    updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
+    //updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
     //save(): Promise<void>;
 }
 
@@ -33,17 +32,16 @@ const questionSchema = new Schema<Question>({
 })
 
 questionSchema.methods = {
-    formatted(this: User): QuestionFormatted {
+    formatted(this: Question): QuestionFormatted {
         return {
             id: this._id.toString(),
             question: this.question,
             answer: this.answer,
         }
     }
-};
-
-userSchema.statics = {
 
 };
 
-export const UserModel = mongoose.model<Question, UserStatic>('Question', userSchema);
+//userSchema.statics = {};
+
+export const UserModel = mongoose.model<Question, QuestionStatic>('Question', questionSchema);
