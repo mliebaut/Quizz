@@ -7,7 +7,7 @@ export type Question = {
     answer: string;
     formatted(): QuestionFormatted
     updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
-    //save(): Promise<void>;
+    save(): Promise<void>;
 }
 
 type QuestionStatic = Model<Question> & {
@@ -19,7 +19,6 @@ type QuestionFormatted = {
     id: string;
     question: string;
     answer: string;
-
 }
 
 export type QuestionUpdateData = {
@@ -41,11 +40,17 @@ questionSchema.methods = {
             answer: this.answer,
         }
     },
-    async updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question> {
-        this.question = dataToUpdate.question ?? this.question;
-        this.answer = dataToUpdate.answer ?? this.answer;
-        return this;
-    }
+    async updateQuestion(this: Question,
+                          dataToUpdate: {
+                              question?: string,
+                              answer?: string,
+                          })
+    {
+        this.question = dataToUpdate.question === undefined ? this.question :dataToUpdate.question
+        this.answer = dataToUpdate.answer === undefined ? this.answer :dataToUpdate.answer
+        console.log("je suis dans la méthode updateQuestion")
+        await this.save();
+    },
 };
 
 questionSchema.statics = {

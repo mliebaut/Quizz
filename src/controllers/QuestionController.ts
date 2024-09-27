@@ -42,11 +42,9 @@ export default {
         if(questionById === null) {
             return Response.resourceNotFound(context);
         }
-        //
-        // questionById.updateQuestion({question: "Quel est le bleu ?", answer: "Bleu"})
 
         console.log("je suis dans l'édition")
-        questionById.updateQuestion({question: "Quel est le bleu ?", answer: "Bleu"})
+        questionById.updateQuestion({answer: "Pacequ'ils adorent les extensions hihi"})
 
         return Response.success(context, questionById.formatted())
     }
