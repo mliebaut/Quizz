@@ -6,5 +6,6 @@ export default async (context: Koa.Context, next: Koa.Next) => {
         await next();
     } else {
         return Response.forbidden(context);
+
     }
 }

@@ -25,7 +25,9 @@ export default {
     resourceNotFound: function(context: Koa.Context, message: string|null = null): void {
         this.make(context, 404, null, message);
     },
-
+    conflict: function(context: Koa.Context, message: string|null = null): void {
+        this.make(context, 409, null, message);
+    },
     unprocessableEntity: function(context: Koa.Context, message: string|null = null): void {
         this.make(context, 422, null, message);
     },

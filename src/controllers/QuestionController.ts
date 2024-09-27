@@ -1,8 +1,8 @@
 import Koa from "koa";
-import Response from "../helpers/Response";
 import Cleaner from "../helpers/Cleaner";
-import {GenreEnum, UserModel} from "../models/User";
-import response from "../helpers/Response";
+import {QuestionModel} from "../models/Question";
+import Response from "../helpers/Response";
+
 
 export default {
     create: async (context: Koa.Context) => {
@@ -10,65 +10,68 @@ export default {
         const question = Cleaner.nonEmptyString(body.question);
         const answer = Cleaner.nonEmptyString(body.answer);
 
+        console.log("Je suis dans la création ")
+
         if (!question || !answer) {
             return Response.badRequest(context);
         }
 
-        const isExisting = await UserModel.isExisting(question)
+        console.log(await QuestionModel.find({}))
+        const isExisting = await QuestionModel.isExisting(question)
 
-        if(isExisting) {
-            return Response.error(context);
+        if (isExisting) {
+            return Response.conflict(context);
         }
 
-        const question = await UserModel.create({
-            question, answer
-        });
-
-        return Response.success(context, question.formatted())
+        const newQuestion = await QuestionModel.create({question, answer});
+        return Response.success(context, newQuestion.formatted());
     },
 
     update: async (context: Koa.Context) => {
 
         const body = context.request.body;
-        const firstName = Cleaner.nonEmptyString(body.firstName);
-        const name = Cleaner.nonEmptyString(body.name);
-        const genre = Cleaner.isInEnum(body.genre, GenreEnum);
-        const email = Cleaner.email(body.email);
-        const password = Cleaner.nonEmptyString(body.password);
+        const question = Cleaner.nonEmptyString(body.question);
+        const answer = Cleaner.nonEmptyString(body.answer);
 
-        if (!firstName || !name || !genre || !email || !password) {
+        if (!question|| !answer) {
             return Response.badRequest(context);
         }
 
-        const user = await UserModel.findById(context.params.id);
+        const questionById = await QuestionModel.findById(context.params.id);
 
-        if(user === null) {
+        if(questionById === null) {
             return Response.resourceNotFound(context);
         }
+        //
+        // questionById.updateQuestion({question: "Quel est le bleu ?", answer: "Bleu"})
 
-        return Response.success(context, user.formatted())
-    },
+        console.log("je suis dans l'édition")
+        questionById.updateQuestion({question: "Quel est le bleu ?", answer: "Bleu"})
 
-    delete: async (context: Koa.Context) => {
-        const body = context.request.body;
-        const firstName = Cleaner.nonEmptyString(body.firstName);
-        const name = Cleaner.nonEmptyString(body.name);
-        const genre = Cleaner.isInEnum(body.genre, GenreEnum);
-        const email = Cleaner.email(body.email);
-        const password = Cleaner.nonEmptyString(body.password);
-
-        if (!firstName || !name || !genre || !email || !password) {
-            return Response.badRequest(context);
-        }
-
-        const user = await UserModel.findById(context.params.id);
-
-        if(user === null) {
-            return Response.resourceNotFound(context);
-        }
-
-
-        return Response.success(context, user.formatted())
+        return Response.success(context, questionById.formatted())
     }
 }
+    //
+    // delete: async (context: Koa.Context) => {
+    //     const body = context.request.body;
+    //     const firstName = Cleaner.nonEmptyString(body.firstName);
+    //     const name = Cleaner.nonEmptyString(body.name);
+    //     const genre = Cleaner.isInEnum(body.genre, GenreEnum);
+    //     const email = Cleaner.email(body.email);
+    //     const password = Cleaner.nonEmptyString(body.password);
+    //
+    //     if (!firstName || !name || !genre || !email || !password) {
+    //         return Response.badRequest(context);
+    //     }
+    //
+    //     const user = await UserModel.findById(context.params.id);
+    //
+    //     if(user === null) {
+    //         return Response.resourceNotFound(context);
+    //     }
+    //
+    //
+    //     return Response.success(context, user.formatted())
+    // }
+
 

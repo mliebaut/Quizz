@@ -1,17 +1,18 @@
 import mongoose, {Model, Schema, Types} from "mongoose";
+import {User, UserUpdateData} from "./User";
 
 export type Question = {
     _id: Types.ObjectId;
     question: string;
     answer: string;
     formatted(): QuestionFormatted
-    //updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
+    updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
     //save(): Promise<void>;
 }
 
 type QuestionStatic = Model<Question> & {
     all(): Promise<Question[]>
-    //isExisting(question: string): Promise<boolean>
+    isExisting(question: string): Promise<boolean>
 }
 
 type QuestionFormatted = {
@@ -33,15 +34,28 @@ const questionSchema = new Schema<Question>({
 
 questionSchema.methods = {
     formatted(this: Question): QuestionFormatted {
+        console.log("-formattage ")
         return {
             id: this._id.toString(),
             question: this.question,
             answer: this.answer,
         }
+    },
+    async updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question> {
+        this.question = dataToUpdate.question ?? this.question;
+        this.answer = dataToUpdate.answer ?? this.answer;
+        return this;
     }
-
 };
 
-//userSchema.statics = {};
+questionSchema.statics = {
+    async all(): Promise<Question[]> {
+        return QuestionModel.find({});
+    },
+    async isExisting(question: string): Promise<boolean> {
+        const existingQuestion = await QuestionModel.findOne({question: question});
+        return existingQuestion !== null;
+    }
+};
 
-export const UserModel = mongoose.model<Question, QuestionStatic>('Question', questionSchema);
+export const QuestionModel = mongoose.model<Question, QuestionStatic>('Question', questionSchema);

@@ -86,7 +86,7 @@ userSchema.statics = {
         return UserModel.find({});
     },
     async isExisting(email: string): Promise<boolean> {
-        const existingUser = await UserModel.find({email});
+        const existingUser = await UserModel.findOne({email});
         return existingUser !== null;
     }
 };

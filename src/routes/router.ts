@@ -1,18 +1,18 @@
 import Router from 'koa-router';
 import StatusController from '../controllers/StatusController';
-import UserController from "../controllers/QuestionController";
+import QuestionController from "../controllers/QuestionController";
 
 const router: Router = new Router();
 router.get('/status', StatusController.status);
 
-const quizzRouter: Router = new Router({prefix: '/question'});
-quizzRouter.post('/create', UserController.create);
-quizzRouter.post('/get', UserController.create);
-quizzRouter.post('/answerAndGet', UserController.create);
-quizzRouter.post('/createOrUpdate', UserController.create);
-quizzRouter.post('/:id/update', UserController.update);
-quizzRouter.post('/:id/delete', UserController.delete);
+const questionRouter: Router = new Router({prefix: '/question'});
+questionRouter.post('/create', QuestionController.create);
+questionRouter.post('/:id/update', QuestionController.update);
+// questionRouter.post('/answerAndGet', QuestionController.create);
+// questionRouter.post('/createOrUpdate', QuestionController.create);
+// questionRouter.post('/:id/update', QuestionController.update);
+// questionRouter.post('/:id/delete', QuestionController.delete);
 
-router.use(quizzRouter.routes(), quizzRouter.allowedMethods());
+router.use(questionRouter.routes(), questionRouter.allowedMethods());
 
 export default router;
