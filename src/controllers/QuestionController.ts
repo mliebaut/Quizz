@@ -2,6 +2,7 @@ import Koa from "koa";
 import Cleaner from "../helpers/Cleaner";
 import {QuestionModel} from "../models/Question";
 import Response from "../helpers/Response";
+const { MongoClient, ObjectId } = require("MongoDB");
 
 
 export default {
@@ -28,18 +29,17 @@ export default {
     },
 
     update: async (context: Koa.Context) => {
-
         const body = context.request.body;
         const question = Cleaner.nonEmptyString(body.question);
         const answer = Cleaner.nonEmptyString(body.answer);
 
-        if (!question|| !answer) {
+        if (!question || !answer) {
             return Response.badRequest(context);
         }
 
         const questionById = await QuestionModel.findById(context.params.id);
 
-        if(questionById === null) {
+        if (questionById === null) {
             return Response.resourceNotFound(context);
         }
 
@@ -47,29 +47,36 @@ export default {
         questionById.updateQuestion({answer: "Pacequ'ils adorent les extensions hihi"})
 
         return Response.success(context, questionById.formatted())
+    },
+    delete: async (context: Koa.Context) => {
+        // console.log("premier coucou")
+        // const body = context.request.body;
+        // const question = Cleaner.nonEmptyString(body.question);
+        // const answer = Cleaner.nonEmptyString(body.answer);
+        // console.log(question)
+        // console.log(answer)
+        //
+        // if (!question || !answer) {
+        //     return Response.badRequest(context);
+        // }
+        console.log("coucou depuis le delete")
+        const questionById = await QuestionModel.findById(context.params.id);
+        console.log(questionById)
+
+        if (questionById === null) {
+            return Response.resourceNotFound(context);
+        }
+
+        questionById.deleteQuestion();
+        return Response.success(context, questionById.formatted())
+    },
+    get: async (context: Koa.Context) => {
+        console.log("Je suis le get")
+
+        
     }
+
 }
-    //
-    // delete: async (context: Koa.Context) => {
-    //     const body = context.request.body;
-    //     const firstName = Cleaner.nonEmptyString(body.firstName);
-    //     const name = Cleaner.nonEmptyString(body.name);
-    //     const genre = Cleaner.isInEnum(body.genre, GenreEnum);
-    //     const email = Cleaner.email(body.email);
-    //     const password = Cleaner.nonEmptyString(body.password);
-    //
-    //     if (!firstName || !name || !genre || !email || !password) {
-    //         return Response.badRequest(context);
-    //     }
-    //
-    //     const user = await UserModel.findById(context.params.id);
-    //
-    //     if(user === null) {
-    //         return Response.resourceNotFound(context);
-    //     }
-    //
-    //
-    //     return Response.success(context, user.formatted())
-    // }
+
 
 

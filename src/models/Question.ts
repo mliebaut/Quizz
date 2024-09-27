@@ -1,5 +1,4 @@
 import mongoose, {Model, Schema, Types} from "mongoose";
-import {User, UserUpdateData} from "./User";
 
 export type Question = {
     _id: Types.ObjectId;
@@ -7,6 +6,8 @@ export type Question = {
     answer: string;
     formatted(): QuestionFormatted
     updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
+    deleteQuestion(this: Question): Promise <void>;
+    getByRandomId(this: Question): Promise<Question[]>
     save(): Promise<void>;
 }
 
@@ -41,16 +42,27 @@ questionSchema.methods = {
         }
     },
     async updateQuestion(this: Question,
-                          dataToUpdate: {
-                              question?: string,
-                              answer?: string,
-                          })
-    {
-        this.question = dataToUpdate.question === undefined ? this.question :dataToUpdate.question
-        this.answer = dataToUpdate.answer === undefined ? this.answer :dataToUpdate.answer
+                         dataToUpdate: {
+                             question?: string,
+                             answer?: string,
+                         }) {
+        this.question = dataToUpdate.question === undefined ? this.question : dataToUpdate.question
+        this.answer = dataToUpdate.answer === undefined ? this.answer : dataToUpdate.answer
         console.log("je suis dans la méthode updateQuestion")
         await this.save();
     },
+
+    async deleteQuestion(this: Question) {
+        const query = {id: this._id};
+        console.log("coucou depuis la méthode deleteQuestion")
+        console.log(query)
+        console.log(query.id)
+
+        await QuestionModel.deleteOne(query.id);
+    },
+    async getByRandomId(this: Question){
+        console.log("in getrandomId")
+    }
 };
 
 questionSchema.statics = {
