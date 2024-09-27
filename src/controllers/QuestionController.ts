@@ -73,7 +73,9 @@ export default {
     get: async (context: Koa.Context) => {
         console.log("Je suis le get")
 
-        
+        console.log(await QuestionModel.listIndexes());
+
+        return Response.success(context)
     }
 
 }
