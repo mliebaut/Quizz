@@ -74,6 +74,7 @@ export default {
         console.log("Je suis le get")
 
         console.log(await QuestionModel.listIndexes());
+        console.log(QuestionModel.collection.find());
 
         return Response.success(context)
     }

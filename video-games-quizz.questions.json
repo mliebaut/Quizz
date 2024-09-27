@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "66f698b50391bac93782e46e"
+  },
+  "question": "1 2 3 ?",
+  "answer": "4 5 6 !",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f69a77dc204d2f5526e725"
+  },
+  "question": "Qu'estce aui est jaune et qui n'attend pas ?",
+  "answer": "Ben pas Jonathan du coup",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6a6cd5915493ed69e31ac"
+  },
+  "question": "C'est qui le meilleur pokémon ?",
+  "answer": "Askip c'est Tortank mais je prefere Porygon",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6a6ed5915493ed69e31b0"
+  },
+  "question": "Pourquoi les joueurs de WoW aiment tant aller chew le coiffeur ?",
+  "answer": "Parcequ'ils adorent les extensions hihi",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6a70e5915493ed69e31b4"
+  },
+  "question": "Quel ets le bleu",
+  "answer": "bleu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6a7395915493ed69e31b8"
+  },
+  "question": "En quelle année Sonic a-t-il vu le jour ?",
+  "answer": "J'en sais rien j'étais sans doute pas née",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6a7635915493ed69e31bc"
+  },
+  "question": "ohlohdfmouaihd",
+  "answer": "afratzetzrzerae",
+  "__v": 0
+}]
