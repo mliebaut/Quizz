@@ -38,7 +38,7 @@ questionSchema.methods = {
         return {
             id: this._id.toString(),
             question: this.question,
-            answer: this.answer,
+            answer: this.answer
         }
     },
     async updateQuestion(this: Question,
@@ -59,9 +59,6 @@ questionSchema.methods = {
         console.log(query.id)
 
         await QuestionModel.deleteOne(query.id);
-    },
-    async getByRandomId(this: Question){
-        console.log("in getrandomId")
     }
 };
 
