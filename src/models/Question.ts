@@ -51,7 +51,6 @@ questionSchema.methods = {
         console.log("je suis dans la méthode updateQuestion")
         await this.save();
     },
-
     async deleteQuestion(this: Question) {
         const query = {id: this._id};
         console.log("coucou depuis la méthode deleteQuestion")
