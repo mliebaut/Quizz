@@ -44,7 +44,7 @@ export default {
         }
 
         console.log("je suis dans l'édition")
-        questionById.updateQuestion({answer: "Pacequ'ils adorent les extensions hihi"})
+        questionById.updateQuestion({question, answer})
 
         return Response.success(context, questionById.formatted())
     },
@@ -60,26 +60,18 @@ export default {
         questionById.deleteQuestion();
         return Response.success(context, questionById.formatted())
     },
+    answerandget: async (context: Koa.Context) => {
+        console.log("Answer and Get")
+        return Response.success(context)
+    },
     getrandomquestion: async (context: Koa.Context) => {
-        console.log("Je suis le get")
+        const randomQuestion = await QuestionModel.getrandomquestion();
 
-        const questionsAll: Question[] = await QuestionModel.all();
-
-        if(questionsAll.length === 0){
-            return Response.resourceNotFound(context);
+        if (!randomQuestion) {
+            return Response.resourceNotFound(context, "Pas de question trouvée.");
         }
 
-        const questionList: Question[] = [];
-        for (const question of questionsAll) {
-            questionList.push(question)
-        }
-
-        const randomIndex: number = Math.floor(Math.random() * questionList.length);
-        const randomQuestion: Question = questionList[randomIndex];
-
-        console.log("question random recuperee :", randomQuestion);
-
-        return Response.success(context, randomQuestion.formatted())
+        return Response.success(context, randomQuestion);
     }
 
 }

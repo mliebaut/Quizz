@@ -7,13 +7,13 @@ export type Question = {
     formatted(): QuestionFormatted
     updateQuestion(this: Question, dataToUpdate: QuestionUpdateData): Promise<Question>
     deleteQuestion(this: Question): Promise <void>;
-    getByRandomId(this: Question): Promise<Question[]>
     save(): Promise<void>;
 }
 
 type QuestionStatic = Model<Question> & {
     all(): Promise<Question[]>
     isExisting(question: string): Promise<boolean>
+    getrandomquestion(): Promise<Array<String>>
 }
 
 type QuestionFormatted = {
@@ -69,7 +69,28 @@ questionSchema.statics = {
     async isExisting(question: string): Promise<boolean> {
         const existingQuestion = await QuestionModel.findOne({question: question});
         return existingQuestion !== null;
-    }
+    },
+    async getrandomquestion(): Promise<Array<String>>{
+        console.log("Je suis le get")
+
+        const questionsAll: Question[] = await QuestionModel.all();
+
+        if(questionsAll.length === 0){
+            console.log("Il n'y apas de question")
+        }
+
+        const questionList: Question[] = [];
+        for (const question of questionsAll) {
+            questionList.push(question)
+        }
+
+        const randomIndex: number = Math.floor(Math.random() * questionList.length);
+        const randomQuestion: Question = questionList[randomIndex];
+
+        console.log("question random recuperee :", randomQuestion);
+
+        return []
+    },
 };
 
 export const QuestionModel = mongoose.model<Question, QuestionStatic>('Question', questionSchema);
